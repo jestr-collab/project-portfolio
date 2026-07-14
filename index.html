@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julian Estrada — Front-End Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <p class="brand">Julian Estrada</p>
+  </header>
+
+  <main class="layout">
+    <section class="work" aria-label="Selected work">
+      <article class="panel" tabindex="0">
+        <div class="panel-visual" aria-hidden="true">
+          <div class="viz viz-chart">
+            <span style="--h: 42%"></span>
+            <span style="--h: 68%"></span>
+            <span style="--h: 55%"></span>
+            <span style="--h: 88%"></span>
+            <span style="--h: 62%"></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <h2 class="panel-title">Team Analytics Dashboard</h2>
+          <p class="panel-desc">Real-time metrics for an internal product team.</p>
+          <p class="panel-note">Synthesized data for company privacy.</p>
+          <ul class="tags">
+            <li>Plotly.js</li>
+            <li>JavaScript</li>
+            <li>HTML / CSS</li>
+          </ul>
+          <a class="panel-link" href="dashboard/index.html">View project</a>
+        </div>
+      </article>
+
+      <article class="panel" tabindex="0">
+        <div class="panel-visual" aria-hidden="true">
+          <div class="viz viz-posters">
+            <span></span>
+            <span></span>
+            <span class="is-accent"></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <h2 class="panel-title">Netflix UI + Recs</h2>
+          <p class="panel-desc">Rebuilt Netflix UI to illustrate how recommendation algorithms function.</p>
+          <p class="panel-note">Collaborators: David Lightfoot, Timothy Chang, Tristan Roman</p>
+          <ul class="tags">
+            <li>React</li>
+            <li>Python</li>
+            <li>Collaborative Filtering</li>
+          </ul>
+          <a class="panel-link" href="https://tristanroman.github.io/Final-Project/" target="_blank" rel="noopener noreferrer">View project</a>
+        </div>
+      </article>
+
+      <article class="panel" tabindex="0">
+        <div class="panel-visual" aria-hidden="true">
+          <div class="viz viz-seats">
+            <span></span><span></span><span class="is-filled"></span><span></span>
+            <span class="is-filled"></span><span></span><span></span><span class="is-filled"></span>
+            <span></span><span class="is-filled"></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <h2 class="panel-title">Interactive Seating Map</h2>
+          <p class="panel-desc">Visualization linking Ticketmaster data to an internal team app — each table tied directly to Salesforce.</p>
+          <p class="panel-note">Three data sources unified into one layout, cutting errors and inconsistency to ~0%.</p>
+          <ul class="tags">
+            <li>JavaScript</li>
+            <li>HTML / CSS</li>
+          </ul>
+          <a class="panel-link" href="interactivetablemap/index.html">View project</a>
+        </div>
+      </article>
+    </section>
+
+    <aside class="about">
+      <div id="about-particles" aria-hidden="true"></div>
+      <div class="about-content">
+        <div class="about-intro">
+          <img
+            class="about-photo"
+            src="assets/julian.jpg"
+            alt="Julian Estrada"
+            width="360"
+            height="480"
+          />
+          <div class="about-intro-text">
+            <h1 class="about-title">About</h1>
+            <p class="about-bio">
+              Data scientist and developer with a passion for clean interfaces and well-structured systems. I build tools that make complex data easy to act on — from interactive dashboards to full-stack web apps. My background is in data science and analytics, but I'm most energized when the technical work has a visual, human-facing layer to it.
+            </p>
+          </div>
+        </div>
+        <ul class="tags tags--skills">
+          <li>HTML / CSS</li>
+          <li>JavaScript</li>
+          <li>React</li>
+          <li>Vue</li>
+          <li>Data viz</li>
+        </ul>
+        <ul class="credentials" aria-label="Experience and education">
+          <li>
+            <img src="assets/curebound.png" alt="" width="32" height="32" />
+            <div>
+              <p class="credential-org">Curebound</p>
+              <p class="credential-detail">Database Analytics Administrator</p>
+            </div>
+          </li>
+          <li>
+            <img src="assets/ucsd-hdsi.png" alt="" width="32" height="32" />
+            <div>
+              <p class="credential-org">UC San Diego</p>
+              <p class="credential-detail">M.S. Data Science</p>
+            </div>
+          </li>
+        </ul>
+        <nav class="contact" aria-label="Contact">
+          <a href="mailto:julianeestrada@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/julian-estrada-7a446620b/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+        </nav>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

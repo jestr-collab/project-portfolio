@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Analytics Dashboard — Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="dashboard-title-row">
+      <h1>Team Analytics Dashboard</h1>
+      <span class="subtitle">Synthesized demo data · for company privacy</span>
+    </div>
+    <a class="back-link" href="../index.html">← Portfolio</a>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="widget-grid">
+
+      <section class="widget widget-wide" data-widget="donor-map" id="donor-map-widget">
+        <div class="widget-header">
+          <h2>Purchaser Map — USA by Zip</h2>
+          <div class="widget-actions"></div>
+        </div>
+
+        <div class="widget-toolbar">
+          <div class="widget-stats" id="map-stats"></div>
+          <div class="widget-filter">
+            <label for="min-amt-slider">Min amount</label>
+            <span class="amt-label" id="min-amt-label">$0</span>
+            <input type="range" id="min-amt-slider" min="0" max="75000" step="50" value="0" />
+            <span class="filter-count" id="filter-count"></span>
+          </div>
+        </div>
+
+        <div class="widget-body">
+          <div class="widget-loading" id="map-loading">Loading map…</div>
+          <div id="map" class="map-chart" style="display:none"></div>
+        </div>
+
+        <footer class="widget-footer">
+          <details id="map-skipped" hidden>
+            <summary></summary>
+            <ul></ul>
+          </details>
+        </footer>
+      </section>
+
+      <div class="widget-sidebar">
+
+      <section class="widget widget-compact" data-widget="iwave-analysis" id="iwave-widget">
+        <div class="widget-header">
+          <h2>Affinity Score Analysis</h2>
+          <div class="widget-actions"></div>
+        </div>
+        <div class="widget-body widget-body-table">
+          <p class="iwave-caption">Count of affinity score by seating section</p>
+          <div class="iwave-table-wrap">
+            <table class="iwave-table" id="iwave-table" aria-label="Affinity score analysis"></table>
+          </div>
+        </div>
+      </section>
+
+      <section class="widget widget-compact" data-widget="staff-portfolio" id="staff-portfolio-widget">
+        <div class="widget-header">
+          <h2>Staff Portfolio <span class="widget-badge">Accounts</span></h2>
+          <div class="widget-actions"></div>
+        </div>
+        <div class="widget-body widget-body-metric">
+          <p class="metric-question">How many event purchasers are already assigned to a staff portfolio?</p>
+          <p class="metric-value">364</p>
+          <p class="metric-label">accounts in staff portfolios attended</p>
+        </div>
+      </section>
+
+      </div>
+
+      <section class="widget widget-narrow widget-compact widget-row-2" data-widget="business-affiliations" id="business-affiliations-widget">
+        <div class="widget-header">
+          <h2>Business Affiliations</h2>
+          <div class="widget-actions"></div>
+        </div>
+        <div class="widget-body widget-body-list">
+          <p class="list-caption">Top employer affiliations among event purchasers</p>
+          <table class="rank-table" aria-label="Business affiliations">
+            <thead>
+              <tr>
+                <th scope="col">Organization</th>
+                <th scope="col" class="num">Accounts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Meridian Capital Group</th>
+                <td class="num">42</td>
+              </tr>
+              <tr>
+                <th scope="row">Northline Health Systems</th>
+                <td class="num">31</td>
+              </tr>
+              <tr>
+                <th scope="row">Cascade Research Lab</th>
+                <td class="num">27</td>
+              </tr>
+              <tr>
+                <th scope="row">Harbor &amp; Field LLP</th>
+                <td class="num">19</td>
+              </tr>
+              <tr>
+                <th scope="row">Brightwood Financial</th>
+                <td class="num">16</td>
+              </tr>
+              <tr>
+                <th scope="row">Other / unaffiliated</th>
+                <td class="num">618</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="widget widget-narrow widget-compact widget-row-2" data-widget="program-overlap" id="program-overlap-widget">
+        <div class="widget-header">
+          <h2>Program Overlap <span class="widget-badge">Contacts</span></h2>
+          <div class="widget-actions"></div>
+        </div>
+        <div class="widget-body widget-body-metric">
+          <p class="metric-question">How many event purchasers also participated in other programs and/or donated to them since 2024?</p>
+          <p class="metric-value">218</p>
+          <p class="metric-label">contacts with program overlap</p>
+          <div class="metric-split" aria-label="Overlap breakdown">
+            <div class="metric-split-item">
+              <span class="metric-split-value">142</span>
+              <span class="metric-split-label">Participated</span>
+            </div>
+            <div class="metric-split-item">
+              <span class="metric-split-value">89</span>
+              <span class="metric-split-label">Donated</span>
+            </div>
+            <div class="metric-split-item">
+              <span class="metric-split-value">47</span>
+              <span class="metric-split-label">Both</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="widget widget-narrow widget-compact widget-row-2" data-widget="new-returning" id="new-returning-widget">
+        <div class="widget-header">
+          <h2>New vs. Returning <span class="widget-badge">Accounts</span></h2>
+          <div class="widget-actions"></div>
+        </div>
+        <div class="widget-body widget-body-metric">
+          <p class="metric-question">How many event purchasers have attended a similar event in the past?</p>
+          <p class="metric-value">742</p>
+          <p class="metric-label">accounts</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="map-data.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/iwave-analysis.js"></script>
+  <script src="js/donor-map.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      Dashboard.init();
+
+      if (!window.CONCERT_MAP_DATA) {
+        document.getElementById("map-loading").className = "widget-loading error";
+        document.getElementById("map-loading").textContent = "Map data failed to load.";
+        return;
+      }
+
+      DonorMapWidget.init(window.CONCERT_MAP_DATA);
+      IwaveAnalysisWidget.init();
+    });
+  </script>
+</body>
+</html>

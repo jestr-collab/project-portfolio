@@ -1,0 +1,19 @@
+.DS_Store
+.cursor/
+**/.venv/
+**/__pycache__/
+*.pyc
+
+# Nested repo / local tooling
+interactivetablemap/.git/
+interactivetablemap/.cursor/
+
+# Real event data (portfolio uses synthetic-data.js)
+interactivetablemap/*.xlsx
+interactivetablemap/*.csv
+interactivetablemap/~$*
+interactivetablemap/Pinktabletracker*
+interactivetablemap/pinktabletracker*
+interactivetablemap/Screenshot*
+
+# Keep coordinates? — excluded above as csv; synthetic data is enough

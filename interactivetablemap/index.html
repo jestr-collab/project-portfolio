@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Seating Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1400px;
+      padding: 12px 16px 4px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .header-copy {
+      min-width: 0;
+      max-width: 52rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .case-desc {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #4b5563;
+      max-width: 46rem;
+    }
+
+    .back-link {
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #0176d3;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .back-link:hover {
+      color: #014486;
+      text-decoration: underline;
+    }
+
+    .case-footer {
+      width: 100%;
+      max-width: 1400px;
+      padding: 16px 16px 28px;
+      margin-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .case-footer p {
+      margin: 0;
+      color: #6b7280;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1400px;
+      padding: 4px 16px 16px;
+      position: relative;
+    }
+
+    #map-container {
+      position: relative;
+      display: block;
+      margin: 0 auto;
+      max-width: 95vw;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    #map-image {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .seat-dot {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      transform: translate(-50%, -50%);
+      background: #ff964b;
+      border: 1.5px solid rgba(17, 24, 39, 0.35);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.35);
+      cursor: pointer;
+      transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px;
+      color: #111827;
+      font-size: 4.5px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.05;
+      white-space: normal;
+      word-break: keep-all;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .seat-dot:hover {
+      transform: translate(-50%, -50%) scale(1.22);
+      box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.22);
+      z-index: 10;
+    }
+
+    #tooltip {
+      position: absolute;
+      min-width: 160px;
+      max-width: 260px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      background: rgba(15, 23, 42, 0.96);
+      color: #f9fafb;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.95);
+      transform: translate(-50%, calc(-100% - 10px));
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    #tooltip.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #tooltip-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    #tooltip-body {
+      color: #e5e7eb;
+    }
+
+    #sidebar {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.8rem;
+      color: #f9fafb;
+      max-width: 280px;
+    }
+
+    #sidebar strong { font-weight: 600; }
+
+    .view-tabs {
+      display: inline-flex;
+      gap: 6px;
+      margin: 4px 0 6px;
+      padding: 2px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .tab-button {
+      border: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      color: #9ca3af;
+      transition: background-color 120ms ease-out, color 120ms ease-out;
+    }
+
+    .tab-button.active {
+      background: #ec4899;
+      color: #faf5ff;
+    }
+
+    .tab-button:not(.active):hover { color: #e5e7eb; }
+
+    #legend {
+      position: absolute;
+      left: 12px;
+      top: 72px;
+      max-width: 160px;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+      z-index: 5;
+    }
+
+    #legend img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .privacy-note {
+      color: #9ca3af;
+      font-size: 0.72rem;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="content-root">
+    <header>
+      <div class="header-copy">
+        <h1>Interactive Seating Map</h1>
+        <p>Hover a table marker to see placement details.</p>
+        <p class="case-desc">
+          A visualization that linked Ticketmaster seating data into an internal team application,
+          with each table connecting directly to Salesforce. Three separate data sources were
+          combined into one clean visual layout — reducing error and inconsistency to effectively
+          zero by working from a single unified dataset.
+        </p>
+        <p class="privacy-note">Synthesized demo data · colored by seating level</p>
+      </div>
+      <a class="back-link" href="../index.html">← Back to portfolio</a>
+    </header>
+
+    <main>
+      <div class="view-tabs">
+        <button id="tab-labeled" class="tab-button active" type="button">Labeled View</button>
+        <button id="tab-blank" class="tab-button" type="button">Blank View</button>
+      </div>
+
+      <div id="map-container">
+        <img id="map-image" src="map.png" alt="Interactive event seating map" />
+        <div id="tooltip" class="hidden">
+          <div id="tooltip-title"></div>
+          <div id="tooltip-body"></div>
+        </div>
+      </div>
+
+      <div id="sidebar">
+        <div><strong>Table:</strong> <span id="current-table">None</span></div>
+        <div><strong>Household:</strong> <span id="current-household">—</span></div>
+        <div><strong>Level:</strong> <span id="current-level">—</span></div>
+      </div>
+
+      <div id="legend">
+        <img src="key.png" alt="Seating level legend" />
+      </div>
+    </main>
+
+    <footer class="case-footer">
+      <p>Interactive Seating Map · portfolio case study</p>
+      <a class="back-link" href="../index.html">← Back to portfolio</a>
+    </footer>
+  </div>
+
+  <script src="synthetic-data.js"></script>
+  <script>
+    const mapContainer = document.getElementById("map-container");
+    const mapImage = document.getElementById("map-image");
+    const tooltip = document.getElementById("tooltip");
+    const tooltipTitle = document.getElementById("tooltip-title");
+    const tooltipBody = document.getElementById("tooltip-body");
+    const currentTableEl = document.getElementById("current-table");
+    const currentHouseholdEl = document.getElementById("current-household");
+    const currentLevelEl = document.getElementById("current-level");
+    const tabLabeled = document.getElementById("tab-labeled");
+    const tabBlank = document.getElementById("tab-blank");
+
+    let currentView = "labeled";
+    let tables = [];
+
+    function setDetails(table) {
+      if (!table) {
+        currentTableEl.textContent = "None";
+        currentHouseholdEl.textContent = "—";
+        currentLevelEl.textContent = "—";
+        return;
+      }
+      currentTableEl.textContent = table.tableId;
+      currentHouseholdEl.textContent = table.household || "—";
+      currentLevelEl.textContent = table.tierLabel + " · " + table.price;
+    }
+
+    function showTooltipAtMouse(event, table) {
+      tooltipTitle.textContent = "Table " + table.tableId;
+      const notes = table.notes ? "<br/><em>" + table.notes + "</em>" : "";
+      tooltipBody.innerHTML =
+        (table.household || "—") +
+        "<br/>" +
+        table.tierLabel +
+        " · " +
+        table.price +
+        notes;
+
+      tooltip.style.left = event.clientX - mapContainer.getBoundingClientRect().left + "px";
+      tooltip.style.top = event.clientY - mapContainer.getBoundingClientRect().top + "px";
+      tooltip.classList.remove("hidden");
+    }
+
+    function hideTooltip() {
+      tooltip.classList.add("hidden");
+    }
+
+    function buildDots() {
+      Array.from(document.querySelectorAll(".seat-dot")).forEach((d) => d.remove());
+
+      tables.forEach((table) => {
+        const dot = document.createElement("div");
+        dot.className = "seat-dot";
+        dot.style.left = table.x + "%";
+        dot.style.top = table.y + "%";
+        dot.style.background = table.color;
+        dot.dataset.tableId = table.tableId;
+        dot.textContent =
+          currentView === "blank"
+            ? ""
+            : table.household === "Available"
+              ? table.tableId
+              : (table.household || table.tableId).split(" ")[0];
+
+        dot.addEventListener("mouseenter", (event) => {
+          setDetails(table);
+          showTooltipAtMouse(event, table);
+        });
+        dot.addEventListener("mousemove", (event) => showTooltipAtMouse(event, table));
+        dot.addEventListener("mouseleave", hideTooltip);
+
+        mapContainer.appendChild(dot);
+      });
+    }
+
+    function setView(view) {
+      if (view === currentView) return;
+      currentView = view;
+      tabLabeled.classList.toggle("active", view === "labeled");
+      tabBlank.classList.toggle("active", view === "blank");
+      buildDots();
+    }
+
+    function init() {
+      const data = window.SEATING_MAP_DATA;
+      if (!data || !data.tables || !data.tables.length) {
+        console.error("Synthetic seating data failed to load.");
+        return;
+      }
+      tables = data.tables;
+      buildDots();
+    }
+
+    mapImage.addEventListener("load", init);
+    if (mapImage.complete) init();
+
+    mapContainer.addEventListener("click", () => {
+      setDetails(null);
+      hideTooltip();
+    });
+
+    tabLabeled.addEventListener("click", () => setView("labeled"));
+    tabBlank.addEventListener("click", () => setView("blank"));
+  </script>
+</body>
+</html>
